@@ -27,8 +27,9 @@ router.get("/", (req, res) => {
     });
 });
 
-router.get("/:id", (req, res) => {
+router.get("/:id", validateUserId, (req, res) => {
   // do your magic!
+  res.json(req.user);
 });
 
 router.get("/:id/posts", (req, res) => {
@@ -47,6 +48,22 @@ router.put("/:id", (req, res) => {
 
 function validateUserId(req, res, next) {
   // do your magic!
+  user
+    .getById(req.params.id)
+    .then(user => {
+      if (user) {
+        req.user = user;
+        next();
+      } else {
+        res.status(404).json({ message: "user not found" });
+      }
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({
+        message: "Error retrieving the user"
+      });
+    });
 }
 
 function validateUser(req, res, next) {
