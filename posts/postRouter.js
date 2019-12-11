@@ -4,7 +4,7 @@ const posts = require("./postDb");
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
+router.get("/", (req, res, next) => {
   // do your magic!
   posts
     .get()
@@ -12,10 +12,7 @@ router.get("/", (req, res) => {
       res.status(200).json(posts);
     })
     .catch(error => {
-      console.log(error);
-      res.status(500).json({
-        message: "Error retrieving the posts"
-      });
+      next(error);
     });
 });
 
@@ -24,7 +21,7 @@ router.get("/:id", validatePostId, (req, res) => {
   res.json(req.post);
 });
 
-router.delete("/:id", validatePostId, (req, res) => {
+router.delete("/:id", validatePostId, (req, res, next) => {
   // do your magic!
   posts
     .remove(req.post.id)
@@ -34,14 +31,11 @@ router.delete("/:id", validatePostId, (req, res) => {
       }
     })
     .catch(error => {
-      console.log(error);
-      res.status(500).json({
-        message: "Error removing the post"
-      });
+      next(error);
     });
 });
 
-router.put("/:id", validatePostId, validatePost, (req, res) => {
+router.put("/:id", validatePostId, validatePost, (req, res, next) => {
   // do your magic!
   posts
     .update(req.post.id, req.body)
@@ -55,10 +49,7 @@ router.put("/:id", validatePostId, validatePost, (req, res) => {
       }
     })
     .catch(error => {
-      console.log(error);
-      res.status(500).json({
-        message: "Error updating the post"
-      });
+      next(error);
     });
 });
 
@@ -77,10 +68,7 @@ function validatePostId(req, res, next) {
       }
     })
     .catch(error => {
-      console.log(error);
-      res.status(500).json({
-        message: "Error retrieving the post"
-      });
+      next(error);
     });
 }
 

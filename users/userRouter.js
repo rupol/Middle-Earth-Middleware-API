@@ -40,7 +40,7 @@ router.post("/:id/posts", validateUserId, validatePost, (req, res) => {
     });
 });
 
-router.get("/", (req, res) => {
+router.get("/", (req, res, next) => {
   // do your magic!
   user
     .get()
@@ -48,10 +48,7 @@ router.get("/", (req, res) => {
       res.status(200).json(user);
     })
     .catch(error => {
-      console.log(error);
-      res.status(500).json({
-        message: "Error retrieving the users"
-      });
+      next(error);
     });
 });
 
@@ -60,7 +57,7 @@ router.get("/:id", validateUserId, (req, res) => {
   res.json(req.user);
 });
 
-router.get("/:id/posts", validateUserId, (req, res) => {
+router.get("/:id/posts", validateUserId, (req, res, next) => {
   // do your magic!
   user
     .getUserPosts(req.user.id)
@@ -75,14 +72,11 @@ router.get("/:id/posts", validateUserId, (req, res) => {
       }
     })
     .catch(error => {
-      console.log(error);
-      res.status(500).json({
-        message: "Error retrieving the posts"
-      });
+      next(error);
     });
 });
 
-router.delete("/:id", validateUserId, (req, res) => {
+router.delete("/:id", validateUserId, (req, res, next) => {
   // do your magic!
   user
     .remove(req.user.id)
@@ -92,14 +86,11 @@ router.delete("/:id", validateUserId, (req, res) => {
       }
     })
     .catch(error => {
-      console.log(error);
-      res.status(500).json({
-        message: "Error removing the post"
-      });
+      next(error);
     });
 });
 
-router.put("/:id", validateUserId, validateUser, (req, res) => {
+router.put("/:id", validateUserId, validateUser, (req, res, next) => {
   // do your magic!
   user
     .update(req.user.id, req.body)
@@ -112,10 +103,7 @@ router.put("/:id", validateUserId, validateUser, (req, res) => {
       }
     })
     .catch(error => {
-      console.log(error);
-      res.status(500).json({
-        message: "Error updating the user"
-      });
+      next(error);
     });
 });
 
@@ -134,10 +122,7 @@ function validateUserId(req, res, next) {
       }
     })
     .catch(error => {
-      console.log(error);
-      res.status(500).json({
-        message: "Error retrieving the user"
-      });
+      next(error);
     });
 }
 
