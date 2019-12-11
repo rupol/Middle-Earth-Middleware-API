@@ -50,7 +50,7 @@ router.get("/", (req, res) => {
     .catch(error => {
       console.log(error);
       res.status(500).json({
-        message: "Error retrieving the user"
+        message: "Error retrieving the users"
       });
     });
 });
@@ -94,7 +94,7 @@ router.delete("/:id", validateUserId, (req, res) => {
     .catch(error => {
       console.log(error);
       res.status(500).json({
-        message: "Error removing the hub"
+        message: "Error removing the post"
       });
     });
 });
