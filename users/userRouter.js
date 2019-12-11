@@ -1,6 +1,7 @@
 const express = require("express");
 
 const user = require("./userDb");
+const posts = require("../posts/postDb");
 
 const router = express.Router();
 
@@ -19,8 +20,24 @@ router.post("/", validateUser, (req, res) => {
     });
 });
 
-router.post("/:id/posts", (req, res) => {
+router.post("/:id/posts", validateUserId, validatePost, (req, res) => {
   // do your magic!
+  const newPost = {
+    user_id: req.params.id,
+    text: req.body.text
+  };
+
+  posts
+    .insert(newPost)
+    .then(post => {
+      res.status(201).json(post);
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({
+        message: "Error adding the post"
+      });
+    });
 });
 
 router.get("/", (req, res) => {
@@ -43,8 +60,26 @@ router.get("/:id", validateUserId, (req, res) => {
   res.json(req.user);
 });
 
-router.get("/:id/posts", (req, res) => {
+router.get("/:id/posts", validateUserId, (req, res) => {
   // do your magic!
+  user
+    .getUserPosts(req.user.id)
+    .then(posts => {
+      if (posts && posts.length) {
+        res.status(200).json(posts);
+      } else {
+        res.status(200).json({
+          message:
+            "The user with the specified ID does not currently have any posts."
+        });
+      }
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({
+        message: "Error retrieving the posts"
+      });
+    });
 });
 
 router.delete("/:id", validateUserId, (req, res) => {
@@ -118,6 +153,12 @@ function validateUser(req, res, next) {
 
 function validatePost(req, res, next) {
   // do your magic!
+  if (!req.body) {
+    return res.status(400).json({ message: "missing post data" });
+  } else if (!req.body.text) {
+    return res.status(400).json({ message: "missing required text field" });
+  }
+  next();
 }
 
 module.exports = router;
