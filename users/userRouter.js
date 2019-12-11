@@ -4,8 +4,19 @@ const user = require("./userDb");
 
 const router = express.Router();
 
-router.post("/", (req, res) => {
+router.post("/", validateUser, (req, res) => {
   // do your magic!
+  user
+    .insert(req.body)
+    .then(user => {
+      res.status(201).json(user);
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({
+        message: "Error adding the user"
+      });
+    });
 });
 
 router.post("/:id/posts", (req, res) => {
@@ -55,7 +66,7 @@ function validateUserId(req, res, next) {
         req.user = user;
         next();
       } else {
-        res.status(404).json({ message: "user not found" });
+        res.status(400).json({ message: "invalid user id" });
       }
     })
     .catch(error => {
@@ -68,6 +79,12 @@ function validateUserId(req, res, next) {
 
 function validateUser(req, res, next) {
   // do your magic!
+  if (!req.body) {
+    return res.status(400).json({ message: "missing user data" });
+  } else if (!req.body.name) {
+    return res.status(400).json({ message: "missing required name field" });
+  }
+  next();
 }
 
 function validatePost(req, res, next) {
