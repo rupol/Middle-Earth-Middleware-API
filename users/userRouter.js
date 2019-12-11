@@ -47,8 +47,21 @@ router.get("/:id/posts", (req, res) => {
   // do your magic!
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", validateUserId, (req, res) => {
   // do your magic!
+  user
+    .remove(req.user.id)
+    .then(count => {
+      if (count > 0) {
+        res.status(200).json({ message: "The user has been deleted" });
+      }
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({
+        message: "Error removing the hub"
+      });
+    });
 });
 
 router.put("/:id", (req, res) => {
