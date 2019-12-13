@@ -4,6 +4,9 @@ const server = express();
 
 server.get("/", (req, res) => {
   res.send(`
+  <body style="
+  font-family: monospace;
+  ">
   <h1>Middle Earth Middleware</h1>
   <h2>User Endpoints</h2>
   <table style="
@@ -11,7 +14,9 @@ server.get("/", (req, res) => {
   border: 1px solid black;
   text-align: center;
   ">
-    <tr>
+    <tr style="
+    background-color: lightgray;
+    ">
       <th>Endpoints</th>
       <th>Request</th>
     </tr>
@@ -19,7 +24,9 @@ server.get("/", (req, res) => {
       <td>/api/users</td>
       <td>GET, POST</td>
     </tr>
-    <tr>
+    <tr style="
+    background-color: #eaeaea;
+    ">
       <td>/api/users/:id</td>
       <td>GET, PUT, DELETE</td>
     </tr>
@@ -34,7 +41,9 @@ server.get("/", (req, res) => {
   border: 1px solid black;
   text-align: center;
   ">
-    <tr>
+    <tr style="
+    background-color: lightgray;
+    ">
       <th>Endpoints</th>
       <th>Request</th>
     </tr>
@@ -42,11 +51,14 @@ server.get("/", (req, res) => {
       <td>/api/posts</td>
       <td>GET</td>
     </tr>
-    <tr>
+    <tr style="
+    background-color: #eaeaea;
+    ">
       <td>/api/posts/:id</td>
       <td>GET, PUT, DELETE</td>
     </tr>
   </table>
+  </body>
   `);
 });
 
