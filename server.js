@@ -4,13 +4,17 @@ const server = express();
 
 server.get("/", (req, res) => {
   res.send(`
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
   <body style="
   font-family: monospace;
   ">
   <h1>Middle Earth Middleware</h1>
   <h2>User Endpoints</h2>
   <table style="
-  width: 600px;
+  width: 100%;
+  max-width: 600px;
   border: 1px solid black;
   text-align: center;
   ">
@@ -37,7 +41,8 @@ server.get("/", (req, res) => {
   </table>
   <h2>Post Endpoints</h2>
   <table style="
-  width: 600px;
+  width: 100%;
+  max-width: 600px;
   border: 1px solid black;
   text-align: center;
   ">
