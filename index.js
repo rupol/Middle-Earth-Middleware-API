@@ -11,8 +11,8 @@ server.use(express.json());
 server.use("/api/users", userRouter);
 server.use("/api/posts", postRouter);
 
-const host = process.env.HOST;
-const port = process.env.PORT;
+const host = process.env.HOST || "localhost";
+const port = process.env.PORT || 4000;
 
 server.use((req, res) => {
   res.status(404).json({

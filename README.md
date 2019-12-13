@@ -1,5 +1,11 @@
 # Middle Earth Middleware Backend
 
+### Getting Started
+
+- Clone this repo and run `npm install`
+- Run `npm run server` and direct requests to `http://localhost:4000`
+- Optional: you can select your host and port using environment variables
+
 ### User Endpoints
 
 | Endpoints                                                        | Request          |
