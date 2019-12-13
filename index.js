@@ -11,6 +11,9 @@ server.use(express.json());
 server.use("/api/users", userRouter);
 server.use("/api/posts", postRouter);
 
+const host = process.env.HOST;
+const port = process.env.PORT;
+
 server.use((req, res) => {
   res.status(404).json({
     message: "Route was not found"
@@ -24,6 +27,6 @@ server.use((err, req, res, next) => {
   });
 });
 
-server.listen(4000, () => {
-  console.log("\n*** Server Running on http://localhost:4000 ***\n");
+server.listen(port, host, () => {
+  console.log(`\n*** Server Running on http://${host}:${port} ***\n`);
 });
